@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 1</title>
+    <style>
+        .task-box {
+            width: 200px;
+            height: 50px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+        }
+        #task-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .priority-0 {
+            background-color: grey;
+        }
+        .priority-1 {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="task-container"></div>
+
+    <script>
+        let tasks = [
+            {description: "Task 1", priority: 1},
+            {description: "Task 2", priority: 0},
+            {description: "Task 3", priority: 1}
+        ];
+
+        function displayTasks(tasks) {
+            const container = document.getElementById("task-container");
+            tasks.forEach(task => {
+                const taskBox = document.createElement("div");
+                taskBox.classList.add("task-box");
+                taskBox.textContent = task.description;
+
+                if (task.priority === 0) {
+                    taskBox.classList.add("priority-0");
+                } else if (task.priority === 1) {
+                    taskBox.classList.add("priority-1");
+                }
+
+                container.appendChild(taskBox);
+            });
+        }
+
+        displayTasks(tasks);
+    </script>
+</body>
+</html>

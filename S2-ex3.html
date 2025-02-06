@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 3</title>
+    <style>
+        #container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            justify-content: space-evenly;
+        }
+        .task-box {
+            width: 200px;
+            height: 50px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+        }
+        #task-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #task-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        #task-title {
+            border-radius: 20px;
+            height: 30px;
+        }
+        #task-priority {
+            height: 30px;
+        }   
+        .priority-0 {
+            background-color: grey;
+        }
+        .priority-1 {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <form id="task-form">
+            <label for="task-title">Task:</label>
+            <input type="text" id="task-title" required>
+            <label for="task-priority">Tag:</label>
+            <select id="task-priority">
+                <option value="1">Important</option>
+                <option value="0">Normal</option>
+            </select>
+            <button type="submit">Add Task</button>
+            <button id="show-important" type="button">Show only the important tasks</button>
+            <button id="show-not-important" type="button">Show the task that are not important</button>
+            <button id="show-all" type="button">Show all the tasks</button>
+        </form>
+
+        <div id="task-container"></div>
+    </div>
+
+    <script>
+        let tasks = [];
+
+        function displayTasks(tasks) {
+            const container = document.getElementById("task-container");
+            container.innerHTML = ''; 
+
+            tasks.forEach(task => {
+                const taskBox = document.createElement("div");
+                taskBox.classList.add("task-box");
+                taskBox.textContent = task.description;
+
+                if (task.priority === 0) {
+                    taskBox.classList.add("priority-0");
+                } else if (task.priority === 1) {
+                    taskBox.classList.add("priority-1");
+                }
+
+                container.appendChild(taskBox);
+            });
+        }
+
+        document.getElementById("task-form").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const taskTitle = document.getElementById("task-title").value;
+            const taskPriority = parseInt(document.getElementById("task-priority").value);
+
+            const newTask = { description: taskTitle, priority: taskPriority };
+            tasks.push(newTask);
+
+            displayTasks(tasks);
+
+            e.target.reset();
+        });
+
+        document.getElementById("show-important").addEventListener("click", function () {
+            const importantTasks = tasks.filter(task => task.priority === 1);
+            displayTasks(importantTasks);
+        });
+
+        document.getElementById("show-not-important").addEventListener("click", function () {
+            const notImportantTasks = tasks.filter(task => task.priority === 0);
+            displayTasks(notImportantTasks);
+        });
+
+        document.getElementById("show-all").addEventListener("click", function () {
+            displayTasks(tasks);
+        });
+    </script>
+</body>
+</html>
